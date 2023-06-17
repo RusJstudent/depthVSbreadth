@@ -115,13 +115,13 @@ grid.onclick = function(e) {
 }
 
 document.onkeydown = function(e) {
-    if (e.key === 'r') rebuild(e);
-    if (e.key === 'e') change(e);
-    if (e.key === 'a') checkpoint(e);
-    if (e.key === 's') save(e);
-    if (e.key === 'f') startSearch(e);
-    if (e.key === 'q') showPath(1000 + searchSpeed ** 1.5);
-    if (e.key === 'd') algorithmToggle(e);
+    if (e.code === 'KeyR') rebuild(e);
+    if (e.code === 'KeyE') change(e);
+    if (e.code === 'KeyA') checkpoint(e);
+    if (e.code === 'KeyS') save(e);
+    if (e.code === 'KeyF') startSearch(e);
+    if (e.code === 'KeyQ') showPath(1000 + searchSpeed ** 1.5);
+    if (e.code === 'KeyD') algorithmToggle(e);
 }
 
 rebuildButton.onclick = e => rebuild(e);
@@ -329,7 +329,7 @@ async function startSearch(e) {
 
     function finalAnimation() {
         let pathCopy = path.concat();
-        deferStep()
+        deferStep();
         function deferStep() {
             let elem = pathCopy.shift();
             getBlock(elem).dataset.color = 'backward';
@@ -373,6 +373,7 @@ async function search() {
         } else {
             cords = breadthFirstSearch()
         }
+        console.log(cords);
 
         await deferAnimation(cords, searchSpeed);
 
@@ -400,7 +401,11 @@ async function search() {
 
     let currentCords = finishCords;
     while (num > 0) {
-        currentCords = getSiblings(currentCords).find(elem => +getBlock(elem).dataset.num === num - 1);
+        if (isDepthSearch) {
+            currentCords = getSiblings(currentCords).reverse().find(elem => +getBlock(elem).dataset.num === num - 1);
+        } else {
+            currentCords = getSiblings(currentCords).find(elem => +getBlock(elem).dataset.num === num - 1);
+        }
         num--;
         path.push(currentCords);
     }
