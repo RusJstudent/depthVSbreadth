@@ -120,7 +120,7 @@ document.onkeydown = function(e) {
     if (e.code === 'KeyA') checkpoint(e);
     if (e.code === 'KeyS') save(e);
     if (e.code === 'KeyF') startSearch(e);
-    if (e.code === 'KeyQ') showPath(1000 + searchSpeed ** 1.5);
+    if (e.code === 'KeyQ') showPath(7000);
     if (e.code === 'KeyD') algorithmToggle(e);
 }
 
@@ -130,7 +130,7 @@ checkpointButton.onclick = e => checkpoint(e);
 startButton.onclick = e => startSearch(e);
 algorithmButton.onclick = e => algorithmToggle(e);
 
-showButton.onclick = e => showPath(1500 + searchSpeed ** 1.5);
+showButton.onclick = e => showPath(7000);
 probabilityButton.onclick = function(e) {
     let result = prompt('Вероятность сгенерировать стену, от 0 до 100', '');
     if (result === null) return;
@@ -339,7 +339,7 @@ async function startSearch(e) {
                     deferStep();
                 }
                 else {
-                    showPath(2000);
+                    showPath(1500);
                 }
             }, searchSpeed / 2);
         }
@@ -373,7 +373,6 @@ async function search() {
         } else {
             cords = breadthFirstSearch()
         }
-        console.log(cords);
 
         await deferAnimation(cords, searchSpeed);
 
